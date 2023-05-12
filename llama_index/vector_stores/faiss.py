@@ -148,12 +148,12 @@ class FaissVectorStore(VectorStore):
         dists, indices = self._faiss_index.search(
             query_embedding_np, query.similarity_top_k
         )
-        dists = [d for d in dists[0]]
+        dists = list(dists[0])
         # if empty, then return an empty response
         if len(indices) == 0:
             return VectorStoreQueryResult(similarities=[], ids=[])
 
         # returned dimension is 1 x k
-        node_idxs = list([str(i) for i in indices[0]])
+        node_idxs = [str(i) for i in indices[0]]
 
         return VectorStoreQueryResult(similarities=dists, ids=node_idxs)

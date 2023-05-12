@@ -23,20 +23,18 @@ def get_text_splits_from_document(
     include_extra_info: bool = True,
 ) -> List[TextSplit]:
     """Break the document into chunks with additional info."""
-    # TODO: clean up since this only exists due to the diff w LangChain's TextSplitter
     if isinstance(text_splitter, TokenTextSplitter):
         # use this to extract extra information about the chunks
-        text_splits = text_splitter.split_text_with_overlaps(
+        return text_splitter.split_text_with_overlaps(
             document.get_text(),
-            extra_info_str=document.extra_info_str if include_extra_info else None,
+            extra_info_str=document.extra_info_str
+            if include_extra_info
+            else None,
         )
-    else:
-        text_chunks = text_splitter.split_text(
-            document.get_text(),
-        )
-        text_splits = [TextSplit(text_chunk=text_chunk) for text_chunk in text_chunks]
-
-    return text_splits
+    text_chunks = text_splitter.split_text(
+        document.get_text(),
+    )
+    return [TextSplit(text_chunk=text_chunk) for text_chunk in text_chunks]
 
 
 def get_nodes_from_document(
@@ -54,7 +52,7 @@ def get_nodes_from_document(
 
     nodes: List[Node] = []
     index_counter = 0
-    for i, text_split in enumerate(text_splits):
+    for text_split in text_splits:
         text_chunk = text_split.text_chunk
         logger.debug(f"> Adding chunk: {truncate_text(text_chunk, 50)}")
         index_pos_info = None

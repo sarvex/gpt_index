@@ -97,11 +97,10 @@ class LlamaDebugHandler(BaseCallbackHandler):
         for event in events:
             event_pairs[event.id_].append(event)
 
-        sorted_events = sorted(
+        return sorted(
             event_pairs.values(),
             key=lambda x: datetime.strptime(x[0].time, TIMESTAMP_FORMAT),
         )
-        return sorted_events
 
     def _get_time_stats_from_event_pairs(
         self, event_pairs: List[List[CBEvent]]
@@ -113,12 +112,11 @@ class LlamaDebugHandler(BaseCallbackHandler):
             end_time = datetime.strptime(event_pair[-1].time, TIMESTAMP_FORMAT)
             total_secs += (end_time - start_time).total_seconds()
 
-        stats = EventStats(
+        return EventStats(
             total_secs=total_secs,
             average_secs=total_secs / len(event_pairs),
             total_count=len(event_pairs),
         )
-        return stats
 
     def get_event_pairs(
         self, event_type: Optional[CBEventType] = None

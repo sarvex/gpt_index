@@ -126,7 +126,7 @@ class GPTKnowledgeGraphIndex(BaseGPTIndex[KG]):
                 event_id = self._service_context.callback_manager.on_event_start(
                     CBEventType.EMBEDDING
                 )
-                for i, triplet in enumerate(triplets):
+                for triplet in triplets:
                     self._service_context.embed_model.queue_text_for_embedding(
                         str(triplet), str(triplet)
                     )

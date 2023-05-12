@@ -90,8 +90,7 @@ class QASummaryQueryEngineBuilder:
             response_mode="tree_summarize",
         )
 
-        # build query engine
-        query_engine = RouterQueryEngine(
+        return RouterQueryEngine(
             selector=LLMSingleSelector.from_defaults(self._service_context),
             query_engine_tools=[
                 QueryEngineTool.from_defaults(
@@ -102,4 +101,3 @@ class QASummaryQueryEngineBuilder:
                 ),
             ],
         )
-        return query_engine

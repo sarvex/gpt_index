@@ -60,9 +60,7 @@ class KVIndexStore(BaseIndexStore):
             return structs[0]
         else:
             json = self._kvstore.get(struct_id, collection=self._collection)
-            if json is None:
-                return None
-            return json_to_index_struct(json)
+            return None if json is None else json_to_index_struct(json)
 
     def index_structs(self) -> List[IndexStruct]:
         """Get all index structs.

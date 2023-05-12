@@ -178,7 +178,7 @@ class PrevNextNodePostprocessor(BasePydanticNodePostprocessor):
         for node in nodes:
             all_nodes[node.node.get_doc_id()] = node
             if self.mode == "next":
-                all_nodes.update(get_forward_nodes(node, self.num_nodes, self.docstore))
+                all_nodes |= get_forward_nodes(node, self.num_nodes, self.docstore)
             elif self.mode == "previous":
                 all_nodes.update(
                     get_backward_nodes(node, self.num_nodes, self.docstore)
@@ -313,14 +313,12 @@ class AutoPrevNextNodePostprocessor(BasePydanticNodePostprocessor):
                 print(f"> Postprocessor Predicted mode: {mode}")
 
             if mode == "next":
-                all_nodes.update(get_forward_nodes(node, self.num_nodes, self.docstore))
+                all_nodes |= get_forward_nodes(node, self.num_nodes, self.docstore)
             elif mode == "previous":
                 all_nodes.update(
                     get_backward_nodes(node, self.num_nodes, self.docstore)
                 )
-            elif mode == "none":
-                pass
-            else:
+            elif mode != "none":
                 raise ValueError(f"Invalid mode: {mode}")
 
         sorted_nodes = sorted(all_nodes.values(), key=lambda x: x.node.get_doc_id())

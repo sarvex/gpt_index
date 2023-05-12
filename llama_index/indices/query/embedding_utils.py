@@ -17,7 +17,7 @@ def get_top_k_embeddings(
 ) -> Tuple[List[float], List]:
     """Get top nodes by similarity to the query."""
     if embedding_ids is None:
-        embedding_ids = [i for i in range(len(embeddings))]
+        embedding_ids = list(range(len(embeddings)))
 
     similarity_fn = similarity_fn or default_similarity_fn
 
@@ -63,7 +63,7 @@ def get_top_k_embeddings_learner(
         raise ImportError("Please install scikit-learn to use this feature.")
 
     if embedding_ids is None:
-        embedding_ids = [i for i in range(len(embeddings))]
+        embedding_ids = list(range(len(embeddings)))
     query_embedding_np = np.array(query_embedding)
     embeddings_np = np.array(embeddings)
     # create dataset

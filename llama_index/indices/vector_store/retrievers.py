@@ -53,19 +53,21 @@ class VectorIndexRetriever(BaseRetriever):
         self,
         query_bundle: QueryBundle,
     ) -> List[NodeWithScore]:
-        if self._vector_store.is_embedding_query:
-            if query_bundle.embedding is None:
-                event_id = self._service_context.callback_manager.on_event_start(
-                    CBEventType.EMBEDDING
+        if (
+            self._vector_store.is_embedding_query
+            and query_bundle.embedding is None
+        ):
+            event_id = self._service_context.callback_manager.on_event_start(
+                CBEventType.EMBEDDING
+            )
+            query_bundle.embedding = (
+                self._service_context.embed_model.get_agg_embedding_from_queries(
+                    query_bundle.embedding_strs
                 )
-                query_bundle.embedding = (
-                    self._service_context.embed_model.get_agg_embedding_from_queries(
-                        query_bundle.embedding_strs
-                    )
-                )
-                self._service_context.callback_manager.on_event_end(
-                    CBEventType.EMBEDDING, payload={"num_nodes": 1}, event_id=event_id
-                )
+            )
+            self._service_context.callback_manager.on_event_end(
+                CBEventType.EMBEDDING, payload={"num_nodes": 1}, event_id=event_id
+            )
 
         query = VectorStoreQuery(
             query_embedding=query_bundle.embedding,

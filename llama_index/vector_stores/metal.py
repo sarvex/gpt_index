@@ -88,9 +88,7 @@ class MetalVectorStore(VectorStore):
         for result in embedding_results:
             ids.append(result.id)
 
-            metadata = {}
-            metadata["doc_id"] = result.ref_doc_id
-            metadata["text"] = result.node.get_text()
+            metadata = {"doc_id": result.ref_doc_id, "text": result.node.get_text()}
             if result.node.extra_info is not None:
                 metadata["extra_info"] = json.dumps(result.node.extra_info)
 

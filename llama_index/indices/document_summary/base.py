@@ -85,10 +85,10 @@ class GPTDocumentSummaryIndex(BaseGPTIndex[IndexDocumentSummary]):
             DocumentSummaryIndexRetriever,
         )
 
-        DSIR = DocumentSummaryIndexRetriever
         DSIER = DocumentSummaryIndexEmbeddingRetriever
 
         if retriever_mode == DSRM.DEFAULT:
+            DSIR = DocumentSummaryIndexRetriever
             return DSIR(self, **kwargs)
         elif retriever_mode == DSRM.EMBEDDING:
             return DSIER(self, **kwargs)

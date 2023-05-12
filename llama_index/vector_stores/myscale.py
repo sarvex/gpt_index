@@ -163,13 +163,12 @@ class MyScaleVectorStore(VectorStore):
             )
             _data.append(f"({item_value_str})")
 
-        insert_statement = f"""
+        return f"""
                 INSERT INTO TABLE 
                     {self.config.database}.{self.config.table}({",".join(self.column_config.keys())})
                 VALUES
                     {','.join(_data)}
                 """
-        return insert_statement
 
     def add(
         self,

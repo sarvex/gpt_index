@@ -57,8 +57,7 @@ class GPTEmptyIndex(BaseGPTIndex[EmptyIndex]):
             IndexList: The created list index.
         """
         del nodes  # Unused
-        index_struct = EmptyIndex()
-        return index_struct
+        return EmptyIndex()
 
     def _insert(self, nodes: Sequence[Node], **insert_kwargs: Any) -> None:
         """Insert a document."""

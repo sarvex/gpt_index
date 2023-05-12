@@ -41,7 +41,7 @@ def vector_search(
 
     nearest_indices = (
         nearest_indices[::-1][:limit]
-        if distance_metric in ["cos"]
+        if distance_metric in {"cos"}
         else nearest_indices[:limit]
     )
 

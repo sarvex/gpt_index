@@ -105,9 +105,7 @@ class BaseKeywordTableRetriever(BaseRetriever):
                     f"> Querying with idx: {chunk_idx}: "
                     f"{truncate_text(node.get_text(), 50)}"
                 )
-        sorted_nodes_with_scores = [NodeWithScore(node) for node in sorted_nodes]
-
-        return sorted_nodes_with_scores
+        return [NodeWithScore(node) for node in sorted_nodes]
 
 
 class KeywordTableGPTRetriever(BaseKeywordTableRetriever):

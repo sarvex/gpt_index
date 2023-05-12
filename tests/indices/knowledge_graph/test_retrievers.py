@@ -33,7 +33,7 @@ def test_as_retriever(
         "in the form of (subset, predicate, object):\n"
     )
     raw_text = "(foo, is, bar)"
-    query = rel_initial_text + "('foo', 'is', 'bar')"
+    query = f"{rel_initial_text}('foo', 'is', 'bar')"
     assert len(nodes) == 2
     assert nodes[0].node.get_text() == raw_text
     assert nodes[1].node.get_text() == query

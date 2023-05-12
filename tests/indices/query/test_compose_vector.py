@@ -38,22 +38,14 @@ class MockEmbedding(BaseEmbedding):
     def _get_text_embedding(self, text: str) -> List[float]:
         """Mock get text embedding."""
         # assume dimensions are 5
-        if text == "Hello world.":
+        if text in {"Hello world.", "toronto london"}:
             return [1, 0, 0, 0, 0]
-        elif text == "This is a test.":
-            return [0, 1, 0, 0, 0]
-        elif text == "This is another test.":
-            return [0, 0, 1, 0, 0]
-        elif text == "This is a test v2.":
+        elif text in {"This is a test v2.", "cat dog"}:
             return [0, 0, 0, 1, 0]
-        elif text == "foo bar":
-            return [0, 0, 1, 0, 0]
-        elif text == "apple orange":
+        elif text in {"This is a test.", "apple orange"}:
             return [0, 1, 0, 0, 0]
-        elif text == "toronto london":
-            return [1, 0, 0, 0, 0]
-        elif text == "cat dog":
-            return [0, 0, 0, 1, 0]
+        elif text in {"This is another test.", "foo bar"}:
+            return [0, 0, 1, 0, 0]
         else:
             raise ValueError("Invalid text for `mock_get_text_embedding`.")
 
@@ -77,7 +69,7 @@ def test_recursive_query_vector_table(
     # use a diff set of documents
     # try building a list for every two, then a tree
     vector1 = GPTVectorStoreIndex.from_documents(
-        documents[0:2], service_context=mock_service_context, **vector_kwargs
+        documents[:2], service_context=mock_service_context, **vector_kwargs
     )
     vector2 = GPTVectorStoreIndex.from_documents(
         documents[2:4], service_context=mock_service_context, **vector_kwargs
@@ -141,7 +133,7 @@ def test_recursive_query_vector_table_query_configs(
     # use a diff set of documents
     # try building a list for every two, then a tree
     vector1 = GPTVectorStoreIndex.from_documents(
-        documents[0:2], service_context=mock_service_context, **vector_kwargs
+        documents[:2], service_context=mock_service_context, **vector_kwargs
     )
     vector2 = GPTVectorStoreIndex.from_documents(
         documents[2:4], service_context=mock_service_context, **vector_kwargs
@@ -193,7 +185,7 @@ def test_recursive_query_vector_table_async(
     # use a diff set of documents
     # try building a list for every two, then a tree
     vector1 = GPTVectorStoreIndex.from_documents(
-        documents[0:2], service_context=mock_service_context, **vector_kwargs
+        documents[:2], service_context=mock_service_context, **vector_kwargs
     )
     vector2 = GPTVectorStoreIndex.from_documents(
         documents[2:4], service_context=mock_service_context, **vector_kwargs
@@ -245,7 +237,7 @@ def test_recursive_query_vector_vector(
     # use a diff set of documents
     # try building a list for every two, then a tree
     vector1 = GPTVectorStoreIndex.from_documents(
-        documents[0:2], service_context=mock_service_context, **vector_kwargs
+        documents[:2], service_context=mock_service_context, **vector_kwargs
     )
     vector2 = GPTVectorStoreIndex.from_documents(
         documents[2:4], service_context=mock_service_context, **vector_kwargs
@@ -312,7 +304,7 @@ def test_recursive_query_pinecone_pinecone(
     # use a diff set of documents
     # try building a list for every two, then a tree
     pinecone1 = GPTVectorStoreIndex.from_documents(
-        documents[0:2],
+        documents[:2],
         storage_context=get_pinecone_storage_context(),
         service_context=mock_service_context,
         **pinecone_kwargs

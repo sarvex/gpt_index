@@ -29,10 +29,9 @@ def _get_default_service_context() -> ServiceContext:
     llm_predictor = LLMPredictor(
         llm=ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo")
     )
-    service_context = ServiceContext.from_defaults(
+    return ServiceContext.from_defaults(
         llm_predictor=llm_predictor, chunk_size_limit=3000
     )
-    return service_context
 
 
 class DatasetGenerator:
@@ -134,9 +133,7 @@ class DatasetGenerator:
             ]
             questions.extend(cleaned_questions)
 
-        questions = [question for question in questions if question != ""]
-
-        return questions
+        return [question for question in questions if question != ""]
 
     def generate_questions_from_nodes(self) -> List[str]:
         """Generates questions for each document."""

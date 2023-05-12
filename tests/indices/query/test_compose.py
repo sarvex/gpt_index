@@ -20,7 +20,7 @@ def test_recursive_query_list_tree(
     tree_kwargs = index_kwargs["tree"]
     # try building a list for every two, then a tree
     list1 = GPTListIndex.from_documents(
-        documents[0:2], service_context=mock_service_context, **list_kwargs
+        documents[:2], service_context=mock_service_context, **list_kwargs
     )
     list2 = GPTListIndex.from_documents(
         documents[2:4], service_context=mock_service_context, **list_kwargs
@@ -157,7 +157,7 @@ def test_recursive_query_list_table(
     # use a diff set of documents
     # try building a list for every two, then a tree
     list1 = GPTListIndex.from_documents(
-        documents[0:2], service_context=mock_service_context, **list_kwargs
+        documents[:2], service_context=mock_service_context, **list_kwargs
     )
     list2 = GPTListIndex.from_documents(
         documents[2:4], service_context=mock_service_context, **list_kwargs

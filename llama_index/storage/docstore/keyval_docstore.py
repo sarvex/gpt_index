@@ -128,7 +128,4 @@ class KVDocumentStore(BaseDocumentStore):
     def get_document_hash(self, doc_id: str) -> Optional[str]:
         """Get the stored hash for a document, if it exists."""
         metadata = self._kvstore.get(doc_id, collection=self._metadata_collection)
-        if metadata is not None:
-            return metadata.get("doc_hash", None)
-        else:
-            return None
+        return metadata.get("doc_hash", None) if metadata is not None else None

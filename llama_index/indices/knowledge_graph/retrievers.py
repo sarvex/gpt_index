@@ -121,8 +121,7 @@ class KGTableRetriever(BaseRetriever):
         """Find the keywords for given rel text triplets."""
         keywords = []
         for rel_text in rel_texts:
-            keyword = rel_text.split(",")[0]
-            if keyword:
+            if keyword := rel_text.split(",")[0]:
                 keywords.append(keyword.strip("(\"'"))
         return keywords
 
@@ -174,7 +173,7 @@ class KGTableRetriever(BaseRetriever):
             logger.debug(
                 f"Found the following rel_texts+query similarites: {str(similarities)}"
             )
-            logger.debug(f"Found the following top_k rel_texts: {str(rel_texts)}")
+            logger.debug(f"Found the following top_k rel_texts: {rel_texts}")
             rel_texts.extend(top_rel_texts)
             if self._include_text:
                 keywords = self._extract_rel_text_keywords(top_rel_texts)

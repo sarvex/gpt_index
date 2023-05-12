@@ -103,23 +103,22 @@ class GPTSQLStructStoreIndex(BaseGPTStructStoreIndex[SQLStructTable]):
         index_struct = self.index_struct_cls()
         if len(nodes) == 0:
             return index_struct
-        else:
-            data_extractor = SQLStructDatapointExtractor(
-                self._service_context.llm_predictor,
-                self.schema_extract_prompt,
-                self.output_parser,
-                self.sql_database,
-                table_name=self._table_name,
-                table=self._table,
-                ref_doc_id_column=self._ref_doc_id_column,
-            )
-            # group nodes by ids
-            source_to_node = defaultdict(list)
-            for node in nodes:
-                source_to_node[node.ref_doc_id].append(node)
+        data_extractor = SQLStructDatapointExtractor(
+            self._service_context.llm_predictor,
+            self.schema_extract_prompt,
+            self.output_parser,
+            self.sql_database,
+            table_name=self._table_name,
+            table=self._table,
+            ref_doc_id_column=self._ref_doc_id_column,
+        )
+        # group nodes by ids
+        source_to_node = defaultdict(list)
+        for node in nodes:
+            source_to_node[node.ref_doc_id].append(node)
 
-            for _, node_set in source_to_node.items():
-                data_extractor.insert_datapoint_from_nodes(node_set)
+        for node_set in source_to_node.values():
+            data_extractor.insert_datapoint_from_nodes(node_set)
         return index_struct
 
     def _insert(self, nodes: Sequence[Node], **insert_kwargs: Any) -> None:

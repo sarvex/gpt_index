@@ -1,4 +1,5 @@
 """Configuration for sphinx."""
+
 # Configuration file for the Sphinx documentation builder.
 #
 # For the full list of built-in configuration values, see the documentation:
@@ -55,7 +56,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = "furo"
-html_title = project + " " + version
+html_title = f"{project} {version}"
 html_static_path = ["_static"]
 
 html_css_files = [

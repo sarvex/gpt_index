@@ -74,7 +74,7 @@ def extract_field_dicts(result: str, text_chunk: str) -> Set:
             field.replace("-", ""),
             field.replace("_", ""),
         ]
-        if not any([f.lower() in text_chunk.lower() for f in field_versions]):
+        if all(f.lower() not in text_chunk.lower() for f in field_versions):
             continue
         if not value:
             continue
@@ -173,14 +173,13 @@ class EvaporateExtractor:
         return_idx = return_idx_list[0]
         fn_str = "\n".join(fn_str.split("\n")[: return_idx + 1])
         fn_str = "\n".join([s for s in fn_str.split("\n") if "print(" not in s])
-        fn_str = "\n".join(
+        return "\n".join(
             [
                 s
                 for s in fn_str.split("\n")
                 if s.startswith(" ") or s.startswith("\t") or s.startswith("def")
             ]
         )
-        return fn_str
 
     def run_fn_on_nodes(
         self, nodes: List[Node], fn_str: str, field_name: str, num_timeouts: int = 1
@@ -238,8 +237,6 @@ class EvaporateExtractor:
         # convert into list of dictionaries
         result_list = []
         for i in range(len(nodes)):
-            result_dict_i = {}
-            for field in existing_fields:
-                result_dict_i[field] = result_dict[field][i]
+            result_dict_i = {field: result_dict[field][i] for field in existing_fields}
             result_list.append(result_dict_i)
         return result_list

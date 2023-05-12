@@ -72,10 +72,9 @@ class BaseResponseBuilder(ABC):
 
     def _callback_llm_on_start(self) -> str:
         """Call the callback manager on_start and return event id."""
-        event_id = self._service_context.callback_manager.on_event_start(
+        return self._service_context.callback_manager.on_event_start(
             CBEventType.LLM
         )
-        return event_id
 
     def _callback_llm_on_end(
         self,
@@ -95,10 +94,9 @@ class BaseResponseBuilder(ABC):
         )
 
     def _callback_chunking_on_start(self, text: str) -> str:
-        event_id = self._service_context.callback_manager.on_event_start(
+        return self._service_context.callback_manager.on_event_start(
             CBEventType.CHUNKING, payload={"node": text}
         )
-        return event_id
 
     def _callback_chunking_on_end(
         self, text_chunks: Sequence[str], event_id: str
@@ -219,7 +217,7 @@ class Refine(BaseResponseBuilder):
                 self._callback_llm_on_end(
                     formatted_prompt, response, event_id, stage="Initial"
                 )
-            elif response is None and self._streaming:
+            elif response is None:
                 event_id = self._callback_llm_on_start()
                 response, formatted_prompt = self._service_context.llm_predictor.stream(
                     text_qa_template,

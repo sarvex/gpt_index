@@ -56,23 +56,21 @@ class ComposableGraphQueryEngine(BaseQueryEngine):
             query_engine = self._graph.get_index(index_id).as_query_engine()
         nodes = query_engine.retrieve(query_bundle)
 
-        if self._recursive:
-            # do recursion here
-            nodes_for_synthesis = []
-            additional_source_nodes = []
-            for node_with_score in nodes:
-                node_with_score, source_nodes = self._fetch_recursive_nodes(
-                    node_with_score, query_bundle, level
-                )
-                nodes_for_synthesis.append(node_with_score)
-                additional_source_nodes.extend(source_nodes)
-            response = query_engine.synthesize(
-                query_bundle, nodes_for_synthesis, additional_source_nodes
-            )
-        else:
-            response = query_engine.synthesize(query_bundle, nodes)
+        if not self._recursive:
+            return query_engine.synthesize(query_bundle, nodes)
 
-        return response
+        # do recursion here
+        nodes_for_synthesis = []
+        additional_source_nodes = []
+        for node_with_score in nodes:
+            node_with_score, source_nodes = self._fetch_recursive_nodes(
+                node_with_score, query_bundle, level
+            )
+            nodes_for_synthesis.append(node_with_score)
+            additional_source_nodes.extend(source_nodes)
+        return query_engine.synthesize(
+            query_bundle, nodes_for_synthesis, additional_source_nodes
+        )
 
     def _fetch_recursive_nodes(
         self,

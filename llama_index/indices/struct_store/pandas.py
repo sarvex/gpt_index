@@ -58,8 +58,7 @@ class GPTPandasIndex(BaseGPTStructStoreIndex[PandasStructTable]):
 
     def _build_index_from_nodes(self, nodes: Sequence[Node]) -> PandasStructTable:
         """Build index from documents."""
-        index_struct = self.index_struct_cls()
-        return index_struct
+        return self.index_struct_cls()
 
     def _insert(self, nodes: Sequence[Node], **insert_kwargs: Any) -> None:
         """Insert a document."""

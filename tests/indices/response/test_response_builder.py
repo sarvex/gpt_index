@@ -16,10 +16,7 @@ from tests.mock_utils.mock_prompts import MOCK_REFINE_PROMPT, MOCK_TEXT_QA_PROMP
 
 def mock_tokenizer(text: str) -> List[str]:
     """Mock tokenizer."""
-    if text == "":
-        return []
-    tokens = text.split(" ")
-    return tokens
+    return [] if not text else text.split(" ")
 
 
 def test_give_response(

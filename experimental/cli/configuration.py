@@ -48,7 +48,7 @@ def load_index(root: str = ".") -> BaseGPTIndex[Any]:
 
     # Index type
     index_type: Type
-    if config["index"]["type"] == "default" or config["index"]["type"] == "vector":
+    if config["index"]["type"] in ["default", "vector"]:
         index_type = GPTVectorStoreIndex
     elif config["index"]["type"] == "keyword":
         index_type = GPTSimpleKeywordTableIndex
@@ -103,10 +103,7 @@ def _load_llm_predictor(config: ConfigParser) -> LLMPredictor:
 
 
 def _load_llm(section: SectionProxy) -> BaseLanguageModel:
-    if "engine" in section:
-        return OpenAI(engine=section["engine"])
-    else:
-        return OpenAI()
+    return OpenAI(engine=section["engine"]) if "engine" in section else OpenAI()
 
 
 def _load_embed_model(config: ConfigParser) -> BaseEmbedding:

@@ -42,9 +42,8 @@ class ElevenLabsTTS(BaseTTS):
         if self.api_key:
             elevenlabs.set_api_key(self.api_key)
 
-        if voice:
-            audio = elevenlabs.generate(text, voice=voice)
-        else:
-            audio = elevenlabs.generate(text)
-
-        return audio
+        return (
+            elevenlabs.generate(text, voice=voice)
+            if voice
+            else elevenlabs.generate(text)
+        )

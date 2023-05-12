@@ -126,10 +126,9 @@ class Node(BaseDocument):
         """Get text."""
         text = super().get_text()
         extra_info_exists = self.extra_info is not None and len(self.extra_info) > 0
-        result_text = (
+        return (
             text if not extra_info_exists else f"{self.extra_info_str}\n\n{text}"
         )
-        return result_text
 
     @classmethod
     def get_type(cls) -> str:
@@ -197,7 +196,4 @@ class NodeWithScore(DataClassJsonMixin):
             ".image is deprecated, check if Node is an ImageNode \
             and use .node.image instead"
         )
-        if isinstance(self.node, ImageNode):
-            return self.node.image
-        else:
-            return None
+        return self.node.image if isinstance(self.node, ImageNode) else None

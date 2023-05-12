@@ -57,7 +57,7 @@ def retriever_kwargs() -> Dict:
 @pytest.fixture
 def documents() -> List[Document]:
     """Get documents."""
-    docs = [
+    return [
         Document("This is a test v2."),
         Document("This is another test."),
         Document("This is a test."),
@@ -67,4 +67,3 @@ def documents() -> List[Document]:
         Document("This is another test."),
         Document("This is a test v2."),
     ]
-    return docs

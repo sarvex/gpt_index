@@ -25,11 +25,7 @@ def load_index_from_storage(
         **kwargs: Additional keyword args to pass to the index constructors.
     """
     index_ids: Optional[Sequence[str]]
-    if index_id is None:
-        index_ids = None
-    else:
-        index_ids = [index_id]
-
+    index_ids = None if index_id is None else [index_id]
     indices = load_indices_from_storage(storage_context, index_ids=index_ids, **kwargs)
 
     if len(indices) == 0:
@@ -97,5 +93,4 @@ def load_graph_from_storage(
     """
     indices = load_indices_from_storage(storage_context, index_ids=None, **kwargs)
     all_indices = {index.index_id: index for index in indices}
-    graph = ComposableGraph(all_indices=all_indices, root_id=root_id)
-    return graph
+    return ComposableGraph(all_indices=all_indices, root_id=root_id)

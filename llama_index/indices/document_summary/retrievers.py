@@ -56,9 +56,7 @@ def default_parse_choice_select_answer_fn(answer: str, num_choices: int) -> List
     """Default parse choice select answer function."""
     answer_tokens = answer.split(",")
     answer_nums = [int(ans.strip()) for ans in answer_tokens]
-    # prune choices based on num_choices
-    pruned_answer = [a for a in answer_nums if a <= num_choices]
-    return pruned_answer
+    return [a for a in answer_nums if a <= num_choices]
 
 
 class DocumentSummaryIndexRetriever(BaseRetriever):

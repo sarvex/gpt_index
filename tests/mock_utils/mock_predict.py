@@ -204,8 +204,6 @@ def patch_llmpredictor_predict(
         response = _mock_text_to_sql(full_prompt_args)
     elif prompt.prompt_type == PromptType.KNOWLEDGE_TRIPLET_EXTRACT:
         response = _mock_kg_triplet_extract(full_prompt_args)
-    elif prompt.prompt_type == PromptType.SIMPLE_INPUT:
-        response = _mock_input(full_prompt_args)
     elif prompt.prompt_type == PromptType.SINGLE_SELECT:
         response = _mock_single_select()
     elif prompt.prompt_type == PromptType.MULTI_SELECT:

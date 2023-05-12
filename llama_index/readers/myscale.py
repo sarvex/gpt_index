@@ -72,14 +72,13 @@ class MyScaleSettings:
             else ""
         )
 
-        query_statement = f"""
+        return f"""
             SELECT id, doc_id, text, node_info, extra_info, 
             distance{search_params_str}(vector, {query_embed_str}) AS dist
             FROM {self.database}.{self.table} {where_str}
             ORDER BY dist {order}
             LIMIT {limit}
             """
-        return query_statement
 
 
 class MyScaleReader(BaseReader):
